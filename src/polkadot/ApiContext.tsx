@@ -4,10 +4,12 @@ import * as definitions from '@/interfaces/definitions';
 
 export type SubstrateApiContext = {
     api: ApiPromise | undefined;
+    accounts: any[]
 }
 
 const _ApiContext: Context<SubstrateApiContext> = React.createContext<SubstrateApiContext>({
-    api: undefined
+    api: undefined,
+    accounts: []
 })
 
 export const SubstrateApiProvider = ({children} : { children: React.ReactNode }) => {
@@ -36,6 +38,6 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
     }, [])
 
     return (
-        <_ApiContext.Provider value={{api}}>{children}</_ApiContext.Provider>
+        <_ApiContext.Provider value={{api,accounts}}>{children}</_ApiContext.Provider>
     )
 }
