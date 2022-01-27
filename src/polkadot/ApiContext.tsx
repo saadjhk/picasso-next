@@ -1,5 +1,6 @@
 import { ApiPromise } from "@polkadot/api";
 import React, { Context, useEffect, useState } from "react";
+import * as definitions from '@/interfaces/definitions';
 
 export type SubstrateApiContext = {
     api: ApiPromise | undefined;
@@ -16,8 +17,10 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
         const { WsProvider } = require('@polkadot/api');
 
         if (process.env.SUBSTRATE_NODE_RPC) {
+            const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
+
             const wsProvider = new WsProvider(process.env.SUBSTRATE_NODE_RPC);
-            ApiPromise.create({ provider: wsProvider }).then(polkadotApi => {
+            ApiPromise.create({ provider: wsProvider, types }).then(polkadotApi => {
                 setApi(polkadotApi);
             })
         }
