@@ -12,6 +12,7 @@ const _ApiContext: Context<SubstrateApiContext> = React.createContext<SubstrateA
 
 export const SubstrateApiProvider = ({children} : { children: React.ReactNode }) => {
     const [api, setApi] = useState<ApiPromise | undefined>(undefined);
+    const [accounts, setAccounts] = useState<any[]>([]);
 
     useEffect(() => {
         const { WsProvider } = require('@polkadot/api');
@@ -22,6 +23,14 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
             const wsProvider = new WsProvider(process.env.SUBSTRATE_NODE_RPC);
             ApiPromise.create({ provider: wsProvider, types }).then(polkadotApi => {
                 setApi(polkadotApi);
+
+                const { web3Enable, web3Accounts } = require("@polkadot/extension-dapp");
+
+                web3Enable("picasso-dapp").then((injected: any) => {
+                    web3Accounts().then((injectedAccounts: any) => {
+                        setAccounts(injectedAccounts)
+                    })
+                })
             })
         }
     }, [])

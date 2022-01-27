@@ -207,6 +207,28 @@
     eventemitter3 "^4.0.7"
     rxjs "^7.5.2"
 
+"@polkadot/extension-dapp@^0.42.7":
+  version "0.42.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.42.7.tgz#0b442d274373980c042dd2e9b66d54cd77459f4c"
+  integrity sha512-KqibGf1tE81Azax7MRc/c0asnGcxum/tFpsGSVacz4mR8WV6P7tVO2q8/7CwFL8aQ6lg4Wm7EVKo2YYX1VurxA==
+  dependencies:
+    "@babel/runtime" "^7.16.7"
+    "@polkadot/extension-inject" "^0.42.7"
+    "@polkadot/util" "^8.3.3"
+    "@polkadot/util-crypto" "^8.3.3"
+
+"@polkadot/extension-inject@^0.42.7":
+  version "0.42.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.42.7.tgz#c6ff7612cd6e6069390f35782514a65d1aa912ce"
+  integrity sha512-ZGomWdr9NDZv6jhoaT4CJDSuYZo3mXm1HCi1SnwbVwd1o3lDMUciNef/5uZKT6ZhT88Q2Jr1Qg7pWdpXKRByLg==
+  dependencies:
+    "@babel/runtime" "^7.16.7"
+    "@polkadot/rpc-provider" "^7.5.1"
+    "@polkadot/types" "^7.5.1"
+    "@polkadot/util" "^8.3.3"
+    "@polkadot/util-crypto" "^8.3.3"
+    "@polkadot/x-global" "^8.3.3"
+
 "@polkadot/keyring@^8.3.3":
   version "8.3.3"
   resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-8.3.3.tgz#931c809f9a3b092231b2d319007e02e64bec8f21"
@@ -247,7 +269,7 @@
     "@polkadot/util" "^8.3.3"
     rxjs "^7.5.2"
 
-"@polkadot/rpc-provider@7.5.1":
+"@polkadot/rpc-provider@7.5.1", "@polkadot/rpc-provider@^7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-provider/-/rpc-provider-7.5.1.tgz#313af05a0a55a98bd1251d10d8604c71bd24a8db"
   integrity sha512-6t5PyEDFBYJiK1/oegQkET4DnKdfk/mskELOVflDd4sLN+mXSAUW4DvS+KiVldHfUBtMQqX/w3p7x26xmWjmqQ==
@@ -312,7 +334,7 @@
     "@babel/runtime" "^7.16.7"
     "@polkadot/util" "^8.3.3"
 
-"@polkadot/types@7.5.1":
+"@polkadot/types@7.5.1", "@polkadot/types@^7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-7.5.1.tgz#1bb1fc33da97bb349e3e449b091ac54c714141f2"
   integrity sha512-71KY3Ia8AZywb0wWP0F588qFJbQMcgZqqP/dw6RP1A5ja2pR5SnqRP/zcaSena1cm9f24rAxgxiluOzzJxrfsA==
