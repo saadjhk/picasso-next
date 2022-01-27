@@ -7,7 +7,7 @@ export type SubstrateApiContext = {
     accounts: any[]
 }
 
-const _ApiContext: Context<SubstrateApiContext> = React.createContext<SubstrateApiContext>({
+export const ApiContext: Context<SubstrateApiContext> = React.createContext<SubstrateApiContext>({
     api: undefined,
     accounts: []
 })
@@ -38,6 +38,6 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
     }, [])
 
     return (
-        <_ApiContext.Provider value={{api,accounts}}>{children}</_ApiContext.Provider>
+        <ApiContext.Provider value={{api,accounts}}>{children}</ApiContext.Provider>
     )
 }
