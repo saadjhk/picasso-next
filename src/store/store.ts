@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import extrinsicsSlice from './extrinsics/slice'
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    extrinsics: extrinsicsSlice
+  },
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
