@@ -1,14 +1,19 @@
 import { ApiContext } from '@/polkadot/ApiContext'
 import { crowdLoanSignableMessage } from '@/polkadot/utils';
+import { selectExtrinsics } from '@/store/extrinsics/slice';
 import { stringToHex } from '@polkadot/util';
 import type { NextPage } from 'next'
-import { useContext, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useContext, useState } from 'react'
+import { useSelector } from 'react-redux';
 
 const Home: NextPage = () => {
   const { api, accounts, crowdloanRewards } = useContext(ApiContext);
+  const extrinsics = useSelector(selectExtrinsics);
+  console.log(extrinsics)
+
   const [signer, setSigner] = useState("");
   const [reward, setReward] = useState("");
+  const [claim, setClaim] = useState("");
 
   const onAssociate = async () => {
     if (api && crowdloanRewards) {
@@ -28,6 +33,17 @@ const Home: NextPage = () => {
       }
 
     }
+  }
+
+  const onClaim = async () => {
+    if (api && crowdloanRewards) {
+      const { web3FromAddress } = require("@polkadot/extension-dapp");
+      const injector = await web3FromAddress(claim);
+      if (injector.signer) {
+        const claimTx = await crowdloanRewards.claim(claim, injector.signer);
+        console.log(claimTx)
+      }
+    }    
   }
 
   return (
@@ -51,7 +67,16 @@ const Home: NextPage = () => {
       <button onClick={evt => {
         evt.preventDefault();
         onAssociate();
-      }}>Associate</button>
+      }}>Associate</button><br></br>
+      <label>Claim</label>
+      <select onChange={evt => {
+        setClaim(evt.target.value)
+      }}>
+        {accounts.map((acc: any, index: number) => {
+          return (<option key={index} value={acc.address}>{acc.meta.name}</option>)
+        })}
+      </select><br></br>
+      <button onClick={onClaim}>Claim</button>
     </div>
   )
 }

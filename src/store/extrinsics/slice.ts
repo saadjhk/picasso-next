@@ -6,12 +6,14 @@ export type Extrinsic = {
     method: string;
     pallet: string;
     parameters: any[];
-    signer?: string;
+    signer: string;
     hash: string;
 }
 
 export type ExtrinsicStore = {
-    [txHash: string]: Extrinsic;
+    [accountId: string]: {
+      [txID: string]: Extrinsic
+    };
 }
 
 const initialState: ExtrinsicStore = {}
@@ -22,7 +24,10 @@ export const extrinsicsSlice = createSlice({
   reducers: {
     addCall: (state, action: PayloadAction<{ call: Extrinsic }>) => {
         const { call } = action.payload;
-        state[call.hash] = call;
+        if (!state[call.signer]) {
+          state[call.signer] = {};
+        }
+        state[call.signer][call.hash] = call;
     },
   },
 })
