@@ -54,6 +54,9 @@ export class CrowdloanRewards extends PalletBase {
      * Query association
      */
      public async association(userAccount: string) {
-        // query substrate
+        let association: any = await this.polkaApi.query.crowdloanRewards.associations(userAccount);
+        association = association.toHuman();
+
+        return association;
     }
 }
