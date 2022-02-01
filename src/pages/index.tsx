@@ -8,9 +8,6 @@ import { useSelector } from 'react-redux';
 
 const Home: NextPage = () => {
   const { api, accounts, crowdloanRewards } = useContext(ApiContext);
-  const extrinsics = useSelector(selectExtrinsics);
-  console.log(extrinsics)
-
   const [signer, setSigner] = useState("");
   const [reward, setReward] = useState("");
   const [claim, setClaim] = useState("");

@@ -34,7 +34,7 @@ export class CrowdloanRewards extends PalletBase {
         const methodResult = await this.polkaApi.tx.crowdloanRewards.claim().signAndSend(rewardAccountId, {
             signer: injectedSigner,
         });
-        
+
         this.dispatcher(
             addCall({
                 call: {
