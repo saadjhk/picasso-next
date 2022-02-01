@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { SubstrateApiProvider } from "@/polkadot/ApiContext";
+import { SubstrateApiProvider } from "@/polkadot/PicassoApiContext";
 import { store } from "@/store/store";
 import { Provider } from "react-redux";
 

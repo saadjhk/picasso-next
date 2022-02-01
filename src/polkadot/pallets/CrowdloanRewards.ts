@@ -50,4 +50,10 @@ export class CrowdloanRewards extends PalletBase {
 
         return methodResult.toHuman();
     }
+    /**
+     * Query association
+     */
+     public async association(userAccount: string) {
+        // query substrate
+    }
 }

@@ -8,16 +8,12 @@ export type PicassoApiContext = {
     api: ApiPromise | undefined;
     accounts: any[];
     crowdloanRewards: CrowdloanRewards | undefined;
-    selectedAccount: string | undefined;
-    setSelectedAccount: React.Dispatch<React.SetStateAction<undefined>> | undefined
 }
 
 export const PicassoApiCntxt: Context<PicassoApiContext> = React.createContext<PicassoApiContext>({
     api: undefined,
     accounts: [],
-    crowdloanRewards: undefined,
-    selectedAccount: undefined,
-    setSelectedAccount: undefined
+    crowdloanRewards: undefined
 })
 
 export const SubstrateApiProvider = ({children} : { children: React.ReactNode }) => {
@@ -27,9 +23,7 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
     const [apiStore, setApiStorge] = useState<PicassoApiContext>({
         api: undefined,
         accounts: [],
-        crowdloanRewards: undefined,
-        selectedAccount: selectedAccount,
-        setSelectedAccount: setSelectedAccount
+        crowdloanRewards: undefined
     })
 
     useEffect(() => {
@@ -49,8 +43,6 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
                             api: polkadotApi,
                             accounts: injectedAccounts,
                             crowdloanRewards: new CrowdloanRewards(polkadotApi, appDispatch),
-                            selectedAccount: undefined,
-                            setSelectedAccount
                         })
                     })
                 })

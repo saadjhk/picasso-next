@@ -1,4 +1,4 @@
-import { PicassoApiCntxt } from '@/polkadot/ApiContext'
+import { PicassoApiCntxt } from '@/polkadot/PicassoApiContext'
 import { crowdLoanSignableMessage } from '@/polkadot/utils';
 import { stringToHex } from '@polkadot/util';
 import type { NextPage } from 'next'
