@@ -1,13 +1,11 @@
-import { ApiContext } from '@/polkadot/ApiContext'
+import { PicassoApiCntxt } from '@/polkadot/ApiContext'
 import { crowdLoanSignableMessage } from '@/polkadot/utils';
-import { selectExtrinsics } from '@/store/extrinsics/slice';
 import { stringToHex } from '@polkadot/util';
 import type { NextPage } from 'next'
 import { useContext, useState } from 'react'
-import { useSelector } from 'react-redux';
 
 const Home: NextPage = () => {
-  const { api, accounts, crowdloanRewards } = useContext(ApiContext);
+  const { api, accounts, crowdloanRewards } = useContext(PicassoApiCntxt);
   const [signer, setSigner] = useState("");
   const [reward, setReward] = useState("");
   const [claim, setClaim] = useState("");

@@ -4,24 +4,32 @@ import * as definitions from '@/interfaces/definitions';
 import { CrowdloanRewards } from "./pallets/CrowdloanRewards";
 import { useDispatch } from "react-redux";
 
-export type SubstrateApiContext = {
+export type PicassoApiContext = {
     api: ApiPromise | undefined;
     accounts: any[];
     crowdloanRewards: CrowdloanRewards | undefined;
+    selectedAccount: string | undefined;
+    setSelectedAccount: React.Dispatch<React.SetStateAction<undefined>> | undefined
 }
 
-export const ApiContext: Context<SubstrateApiContext> = React.createContext<SubstrateApiContext>({
+export const PicassoApiCntxt: Context<PicassoApiContext> = React.createContext<PicassoApiContext>({
     api: undefined,
     accounts: [],
     crowdloanRewards: undefined,
+    selectedAccount: undefined,
+    setSelectedAccount: undefined
 })
 
 export const SubstrateApiProvider = ({children} : { children: React.ReactNode }) => {
+    const [selectedAccount, setSelectedAccount] = useState(undefined);
+
     const appDispatch = useDispatch();
-    const [apiStore, setApiStorge] = useState<SubstrateApiContext>({
+    const [apiStore, setApiStorge] = useState<PicassoApiContext>({
         api: undefined,
         accounts: [],
-        crowdloanRewards: undefined
+        crowdloanRewards: undefined,
+        selectedAccount: selectedAccount,
+        setSelectedAccount: setSelectedAccount
     })
 
     useEffect(() => {
@@ -40,7 +48,9 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
                         setApiStorge({
                             api: polkadotApi,
                             accounts: injectedAccounts,
-                            crowdloanRewards: new CrowdloanRewards(polkadotApi, appDispatch)
+                            crowdloanRewards: new CrowdloanRewards(polkadotApi, appDispatch),
+                            selectedAccount: undefined,
+                            setSelectedAccount
                         })
                     })
                 })
@@ -49,6 +59,6 @@ export const SubstrateApiProvider = ({children} : { children: React.ReactNode })
     }, [])
 
     return (
-        <ApiContext.Provider value={apiStore}>{children}</ApiContext.Provider>
+        <PicassoApiCntxt.Provider value={apiStore}>{children}</PicassoApiCntxt.Provider>
     )
 }
