@@ -2,13 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 export type CrowdloanRewardSlice = {
-  association: string;
+  associationChain: "ETHEREUM" | "RELAY" | null;
+  associationAccount: string;
   claimable: string;
   totalVested: string;
 };
 
 const initialState: CrowdloanRewardSlice = {
-  association: "",
+  associationChain: null,
+  associationAccount: "",
   claimable: "0",
   totalVested: "0",
 };
@@ -29,5 +31,5 @@ export const crowdloanRewardSlice = createSlice({
 
 export const selectExtrinsics = (state: RootState) => state.extrinsics;
 
-export const {} = crowdloanRewardSlice.actions;
+export const { updateCrowdloanRewards } = crowdloanRewardSlice.actions;
 export default crowdloanRewardSlice.reducer;

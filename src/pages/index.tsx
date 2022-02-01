@@ -1,4 +1,5 @@
 import { PicassoApiCntxt } from '@/polkadot/PicassoApiContext'
+import CrowdloanRewardsUpdater from '@/polkadot/updaters/CrowdloadRewards';
 import { crowdLoanSignableMessage } from '@/polkadot/utils';
 import { stringToHex } from '@polkadot/util';
 import type { NextPage } from 'next'
@@ -72,6 +73,7 @@ const Home: NextPage = () => {
         })}
       </select><br></br>
       <button onClick={onClaim}>Claim</button>
+      <CrowdloanRewardsUpdater ethAccount={""} ksmAccount={signer} />
     </div>
   )
 }

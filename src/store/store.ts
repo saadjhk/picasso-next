@@ -1,9 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import extrinsicsSlice from './extrinsics/slice'
+import crowdloanRewardsSlice from './extrinsics/slice'
+
 
 export const store = configureStore({
   reducer: {
-    extrinsics: extrinsicsSlice
+    extrinsics: extrinsicsSlice,
+    crowdloanRewards: crowdloanRewardsSlice
   },
 })
 

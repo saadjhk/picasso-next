@@ -59,4 +59,13 @@ export class CrowdloanRewards extends PalletBase {
 
         return association;
     }
+    /**
+     * Query rewards
+     */
+     public async rewards(userAccount: string) {
+        let rewards: any = await this.polkaApi.query.crowdloanRewards.rewards(userAccount);
+        rewards = rewards.toHuman();
+
+        return rewards;
+    }
 }
