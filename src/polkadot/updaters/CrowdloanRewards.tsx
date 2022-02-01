@@ -9,33 +9,27 @@ const updateSlice = async (account: string, cr: CrowdloanRewards, appDispatch: D
     const association = await cr.association(account);
 
     if (association) {
-        const rewards = await cr.rewards(account);
+      const rewards = association.RelayChain ? 
+      await cr.rewards(account, true) : Promise.resolve(0)
         console.log(association)
         console.log(rewards)
     }
 }
 
 const CrowdloanRewardsUpdater = ({
-  ksmAccount,
-  ethAccount
+  claimerAccount
 }: {
-  ksmAccount: string | undefined;
-  ethAccount: string | undefined;
+  claimerAccount: string | undefined;
 }) => {
     const appDispatch = useDispatch();
   const { crowdloanRewards } = useContext(PicassoApiCntxt);
 
   useEffect(() => {
-    if (ksmAccount && crowdloanRewards) {
-        updateSlice(ksmAccount, crowdloanRewards, appDispatch)
+    if (claimerAccount && crowdloanRewards) {
+      console.log('KSM')
+        updateSlice(claimerAccount, crowdloanRewards, appDispatch)
     }
-  }, [ksmAccount, crowdloanRewards]);
-
-  useEffect(() => {
-    if (ethAccount && crowdloanRewards) {
-        crowdloanRewards.association(ethAccount);
-    }
-  }, [ksmAccount, crowdloanRewards]);
+  }, [claimerAccount, crowdloanRewards]);
 
   return null;
 };

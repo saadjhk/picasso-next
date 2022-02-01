@@ -17,7 +17,6 @@ export const PicassoApiCntxt: Context<PicassoApiContext> = React.createContext<P
 })
 
 export const SubstrateApiProvider = ({children} : { children: React.ReactNode }) => {
-    const [selectedAccount, setSelectedAccount] = useState(undefined);
 
     const appDispatch = useDispatch();
     const [apiStore, setApiStorge] = useState<PicassoApiContext>({
