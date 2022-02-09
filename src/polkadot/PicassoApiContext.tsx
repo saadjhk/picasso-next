@@ -1,66 +1,58 @@
 import { ApiPromise } from "@polkadot/api";
-import React, { Context, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as definitions from "@/interfaces/definitions";
+import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { CrowdloanRewards } from "./pallets/CrowdloanRewards";
-import { useDispatch } from "react-redux";
 
-export type PicassoApiContext = {
-  api: ApiPromise | undefined;
-  accounts: any[];
-  crowdloanRewards: CrowdloanRewards | undefined;
-};
+type ApiConnectionStatus = "initializing" | "connected" | "failed" | "error";
+type PolkadotExtensionStatus = "initializing" | "error" | "no_extension";
 
-export const PicassoApiCntxt: Context<PicassoApiContext> =
-  React.createContext<PicassoApiContext>({
-    api: undefined,
-    accounts: [],
-    crowdloanRewards: undefined,
-  });
+export const PicassoContext = React.createContext({
+  api: undefined as ApiPromise | undefined,
+  apiConnectionStatus: "initializing" as ApiConnectionStatus,
+  accounts: [] as InjectedAccountWithMeta[],
+  crowdloanRewards: undefined as CrowdloanRewards | undefined,
+  extensionStatus: "initializing" as PolkadotExtensionStatus
+});
 
-export const SubstrateApiProvider = ({
+export const PicassoContextProvider = ({
   children,
+  rpcUrl,
+  ss58Format,
 }: {
   children: React.ReactNode;
+  rpcUrl: string;
+  ss58Format: number;
 }) => {
-  const appDispatch = useDispatch();
-  const [apiStore, setApiStorge] = useState<PicassoApiContext>({
-    api: undefined,
-    accounts: [],
-    crowdloanRewards: undefined,
+
+  const [picassoApiState, setPicassoApiState] = useState({
+    api: undefined as ApiPromise | undefined,
+    apiConnectionStatus: "initializing" as ApiConnectionStatus,
+    accounts: [] as InjectedAccountWithMeta[],
+    crowdloanRewards: undefined as CrowdloanRewards | undefined,
+    extensionStatus: "initializing" as PolkadotExtensionStatus
   });
 
   useEffect(() => {
     const { WsProvider } = require("@polkadot/api");
 
-    if (process.env.SUBSTRATE_NODE_RPC) {
-      const types = Object.values(definitions).reduce(
-        (res, { types }): object => ({ ...res, ...types }),
-        {}
-      );
+    const types = Object.values(definitions).reduce(
+      (res, { types }): object => ({ ...res, ...types }),
+      {}
+    );
 
-      const wsProvider = new WsProvider(process.env.SUBSTRATE_NODE_RPC);
-      ApiPromise.create({ provider: wsProvider, types }).then((polkadotApi) => {
-        const {
-          web3Enable,
-          web3Accounts,
-        } = require("@polkadot/extension-dapp");
-
-        web3Enable("picasso-dapp").then((injected: any) => {
-          web3Accounts().then((injectedAccounts: any) => {
-            setApiStorge({
-              api: polkadotApi,
-              accounts: injectedAccounts,
-              crowdloanRewards: new CrowdloanRewards(polkadotApi, appDispatch),
-            });
-          });
-        });
+    const wsProvider = new WsProvider(rpcUrl);
+    ApiPromise.create({ provider: wsProvider, types }).then((polkadotApi) => {
+      setPicassoApiState((s) => {
+        s.api = polkadotApi;
+        return s;
       });
-    }
+    });
   }, []);
 
   return (
-    <PicassoApiCntxt.Provider value={apiStore}>
+    <PicassoContext.Provider value={picassoApiState}>
       {children}
-    </PicassoApiCntxt.Provider>
+    </PicassoContext.Provider>
   );
 };
