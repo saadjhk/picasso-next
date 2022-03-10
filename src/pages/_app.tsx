@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { ExtrinsicsProvider } from 'substrate-react'
 import { PicassoContextProvider } from '@/polkadot/PicassoApiContext'
 import { store } from '@/store/store'
 import { Provider } from 'react-redux'
@@ -13,7 +14,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           process.env.SUBSTRATE_NODE_RPC ? process.env.SUBSTRATE_NODE_RPC : ''
         }
       >
-        <Component {...pageProps} />
+        <ExtrinsicsProvider>
+          <Component {...pageProps} />
+        </ExtrinsicsProvider>
       </PicassoContextProvider>
     </Provider>
   )

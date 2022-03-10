@@ -1,12 +1,10 @@
-import { addCall } from "@/store/extrinsics/slice";
 import { ApiPromise } from "@polkadot/api";
 import { Signer } from "@polkadot/api/types";
-import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { toHexString } from "../utils";
+import { Executor } from "substrate-react/dist/Executor";
 import { PalletBase } from "./PalletBase";
 export class CrowdloanRewards extends PalletBase {
-  constructor(api: ApiPromise, dispatch: Dispatch<AnyAction>) {
-    super(api, dispatch);
+  constructor(api: ApiPromise, ex: Executor) {
+    super(api, ex);
   }
   /**
    * Send association to picasso chain
@@ -52,19 +50,6 @@ export class CrowdloanRewards extends PalletBase {
       .signAndSend(rewardAccountId, {
         signer: injectedSigner,
       });
-
-    this.dispatcher(
-      addCall({
-        call: {
-          status: "PENDING",
-          method: this.claim.name,
-          pallet: "CrowdloanRewards",
-          parameters: [rewardAccount],
-          signer: rewardAccount,
-          hash: toHexString(methodResult.hash),
-        },
-      })
-    );
 
     return methodResult.toHuman();
   }

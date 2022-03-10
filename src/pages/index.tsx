@@ -2,11 +2,13 @@ import CrowdloanRewardsUpdater from '@/polkadot/updaters/CrowdloanRewards';
 import { crowdLoanSignableMessage } from '@/polkadot/utils';
 import { stringToHex } from '@polkadot/util';
 import type { NextPage } from 'next'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PicassoContext } from '@/polkadot/PicassoApiContext';
+import {useExtrinsics} from "substrate-react";
 
 const Home: NextPage = () => {
   const { api, accounts, crowdloanRewards } = useContext(PicassoContext);
+  const { extrinsics, txExecutor } = useExtrinsics();
   const [signer, setSigner] = useState("");
   const [reward, setReward] = useState("");
   const [claim, setClaim] = useState("");
@@ -41,6 +43,10 @@ const Home: NextPage = () => {
       }
     }    
   }
+
+  useEffect(() => {
+    console.log(extrinsics)
+  }, [extrinsics])
 
   return (
     <div>

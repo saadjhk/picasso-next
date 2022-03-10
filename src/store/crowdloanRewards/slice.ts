@@ -29,7 +29,7 @@ export const crowdloanRewardSlice = createSlice({
   },
 });
 
-export const selectExtrinsics = (state: RootState) => state.extrinsics;
+export const selectExtrinsics = (state: RootState) => state.crowdloanRewards;
 
 export const { updateCrowdloanRewards } = crowdloanRewardSlice.actions;
 export default crowdloanRewardSlice.reducer;

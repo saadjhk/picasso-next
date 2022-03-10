@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const withTM = require('next-transpile-modules')(['substrate-react']); // pass the modules you would like to see transpiled
+
 const nextConfig = {
   reactStrictMode: true,
   env: {
@@ -6,4 +8,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+module.exports = withTM(nextConfig)

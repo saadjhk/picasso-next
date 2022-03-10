@@ -1,12 +1,12 @@
 import { ApiPromise } from "@polkadot/api";
-import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+import { Executor } from "substrate-react/dist/Executor";
 
 export class PalletBase {
     polkaApi: ApiPromise;
-    dispatcher: Dispatch<AnyAction>;
+    ex: Executor;
 
-    constructor(api: ApiPromise, dispatch: Dispatch<AnyAction>) {
-        this.dispatcher = dispatch;
+    constructor(api: ApiPromise, ex: Executor) {
         this.polkaApi = api;
+        this.ex = ex;
     }
 }
