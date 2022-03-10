@@ -48,6 +48,20 @@ export const PicassoContextProvider = ({
         return s;
       });
     });
+
+    import("@polkadot/extension-dapp").then(async (extensionPkg) => {
+      const { web3Enable, web3Accounts } = extensionPkg;
+
+      const iExs = await web3Enable("NEXT APP");
+      const accounts = await web3Accounts({ ss58Format });
+
+      setPicassoApiState((apiState) => {
+        console.log('Accounts', accounts)
+        apiState.accounts = accounts;
+        return { ... apiState };
+      })
+    })
+
   }, []);
 
   return (

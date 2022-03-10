@@ -1,12 +1,12 @@
-import { PicassoApiCntxt } from '@/polkadot/PicassoApiContext'
 import CrowdloanRewardsUpdater from '@/polkadot/updaters/CrowdloanRewards';
 import { crowdLoanSignableMessage } from '@/polkadot/utils';
 import { stringToHex } from '@polkadot/util';
 import type { NextPage } from 'next'
-import { useContext, useState } from 'react'
+import { useContext, useState } from 'react';
+import { PicassoContext } from '@/polkadot/PicassoApiContext';
 
 const Home: NextPage = () => {
-  const { api, accounts, crowdloanRewards } = useContext(PicassoApiCntxt);
+  const { api, accounts, crowdloanRewards } = useContext(PicassoContext);
   const [signer, setSigner] = useState("");
   const [reward, setReward] = useState("");
   const [claim, setClaim] = useState("");
