@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import * as definitions from "@/interfaces/definitions";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { CrowdloanRewards } from "./pallets/CrowdloanRewards";
+import { useExtrinsics } from "substrate-react";
 
 type ApiConnectionStatus = "initializing" | "connected" | "failed" | "error";
 type PolkadotExtensionStatus = "initializing" | "error" | "no_extension";
@@ -24,6 +25,7 @@ export const PicassoContextProvider = ({
   rpcUrl: string;
   ss58Format: number;
 }) => {
+  const { txExecutor } = useExtrinsics();
 
   const [picassoApiState, setPicassoApiState] = useState({
     api: undefined as ApiPromise | undefined,
@@ -34,35 +36,38 @@ export const PicassoContextProvider = ({
   });
 
   useEffect(() => {
-    const { WsProvider } = require("@polkadot/api");
+    if (txExecutor) {
+      console.log('Build API')
+      const { WsProvider } = require("@polkadot/api");
 
-    const types = Object.values(definitions).reduce(
-      (res, { types }): object => ({ ...res, ...types }),
-      {}
-    );
+      const types = Object.values(definitions).reduce(
+        (res, { types }): object => ({ ...res, ...types }),
+        {}
+      );
+  
+      const wsProvider = new WsProvider(rpcUrl);
+      ApiPromise.create({ provider: wsProvider, types }).then((polkadotApi) => {
+        import("@polkadot/extension-dapp").then(async (extensionPkg) => {
+          const { web3Enable, web3Accounts } = extensionPkg;
+    
+          await web3Enable("NEXT APP");
+          const accounts = await web3Accounts({ ss58Format });
+    
+          setPicassoApiState((apiState) => {
+            console.log('Accounts', accounts)
+            apiState.accounts = accounts;
+            return { ... apiState };
+          })
+        })
 
-    const wsProvider = new WsProvider(rpcUrl);
-    ApiPromise.create({ provider: wsProvider, types }).then((polkadotApi) => {
-      setPicassoApiState((s) => {
-        s.api = polkadotApi;
-        return s;
+        setPicassoApiState((s) => {
+          s.crowdloanRewards = new CrowdloanRewards(polkadotApi, txExecutor);
+          s.api = polkadotApi;
+          return s;
+        });
       });
-    });
-
-    import("@polkadot/extension-dapp").then(async (extensionPkg) => {
-      const { web3Enable, web3Accounts } = extensionPkg;
-
-      const iExs = await web3Enable("NEXT APP");
-      const accounts = await web3Accounts({ ss58Format });
-
-      setPicassoApiState((apiState) => {
-        console.log('Accounts', accounts)
-        apiState.accounts = accounts;
-        return { ... apiState };
-      })
-    })
-
-  }, []);
+    }
+  }, [txExecutor])
 
   return (
     <PicassoContext.Provider value={picassoApiState}>

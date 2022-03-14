@@ -40,6 +40,22 @@ export class CrowdloanRewards extends PalletBase {
    * Claim Rewards
    * @param rewardsAccount SS58 format string
    */
+   public async claimExecute(rewardAccount: string, injectedSigner: Signer, ex: Executor) {
+
+    ex.execute(
+      this.polkaApi.tx.crowdloanRewards.claim(),
+      rewardAccount,
+      this.polkaApi,
+      injectedSigner,
+      (txHash) => {
+        console.log('Tx Finalized with hash: ', txHash)
+      }
+    )
+  }
+  /**
+   * Claim Rewards
+   * @param rewardsAccount SS58 format string
+   */
   public async claim(rewardAccount: string, injectedSigner: Signer) {
     const rewardAccountId = this.polkaApi.createType(
       "AccountId32",

@@ -2164,7 +2164,7 @@ styled-jsx@5.0.0:
 
 "substrate-react@git+https://github.com/saadjhk/substrate-react.git":
   version "0.1.0"
-  resolved "git+https://github.com/saadjhk/substrate-react.git#17cb0ad2876c46cf9f6b4704cb0aa0e06a0eba5d"
+  resolved "git+https://github.com/saadjhk/substrate-react.git#fe3120da0818ecb0c154ab554243d79719b6f8b6"
 
 supports-color@^7.1.0:
   version "7.2.0"

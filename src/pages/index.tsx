@@ -37,11 +37,11 @@ const Home: NextPage = () => {
     if (api && crowdloanRewards) {
       const { web3FromAddress } = require("@polkadot/extension-dapp");
       const injector = await web3FromAddress(claim);
-      if (injector.signer) {
-        const claimTx = await crowdloanRewards.claim(claim, injector.signer);
-        console.log(claimTx)
+
+      if (injector.signer && txExecutor) {
+        crowdloanRewards.claimExecute(claim, injector.signer, txExecutor);
       }
-    }    
+    }
   }
 
   useEffect(() => {
