@@ -20,10 +20,12 @@ export const PicassoContextProvider = ({
   children,
   rpcUrl,
   ss58Format,
+  appName
 }: {
   children: React.ReactNode;
   rpcUrl: string;
   ss58Format: number;
+  appName: string;
 }) => {
   const { txExecutor } = useExtrinsics();
 
@@ -37,7 +39,6 @@ export const PicassoContextProvider = ({
 
   useEffect(() => {
     if (txExecutor) {
-      console.log('Build API')
       const { WsProvider } = require("@polkadot/api");
 
       const types = Object.values(definitions).reduce(
@@ -50,7 +51,7 @@ export const PicassoContextProvider = ({
         import("@polkadot/extension-dapp").then(async (extensionPkg) => {
           const { web3Enable, web3Accounts } = extensionPkg;
     
-          await web3Enable("NEXT APP");
+          await web3Enable(appName);
           const accounts = await web3Accounts({ ss58Format });
     
           setPicassoApiState((apiState) => {

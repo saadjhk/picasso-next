@@ -5,6 +5,7 @@ import type { NextPage } from 'next'
 import { useContext, useEffect, useState } from 'react';
 import { PicassoContext } from '@/polkadot/PicassoApiContext';
 import {useExtrinsics} from "substrate-react";
+import { APP_NAME } from '@/polkadot/constants';
 
 const Home: NextPage = () => {
   const { api, accounts, crowdloanRewards } = useContext(PicassoContext);
@@ -15,7 +16,8 @@ const Home: NextPage = () => {
 
   const onAssociate = async () => {
     if (api && crowdloanRewards) {
-      const { web3FromAddress } = require("@polkadot/extension-dapp");
+      const { web3FromAddress, web3Enable } = require("@polkadot/extension-dapp");
+      await web3Enable(APP_NAME);
       const injector = await web3FromAddress(signer);
       const accId32 = api.createType("AccountId32", reward);
       if (injector.signer.signRaw) {
@@ -35,7 +37,8 @@ const Home: NextPage = () => {
 
   const onClaim = async () => {
     if (api && crowdloanRewards) {
-      const { web3FromAddress } = require("@polkadot/extension-dapp");
+      const { web3FromAddress, web3Enable } = require("@polkadot/extension-dapp");
+      await web3Enable(APP_NAME);
       const injector = await web3FromAddress(claim);
 
       if (injector.signer && txExecutor) {

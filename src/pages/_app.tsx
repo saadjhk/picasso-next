@@ -4,20 +4,22 @@ import { ExtrinsicsProvider } from 'substrate-react'
 import { PicassoContextProvider } from '@/polkadot/PicassoApiContext'
 import { store } from '@/store/store'
 import { Provider } from 'react-redux'
+import { APP_NAME } from '@/polkadot/constants'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <PicassoContextProvider
-        ss58Format={49}
-        rpcUrl={
-          process.env.SUBSTRATE_NODE_RPC ? process.env.SUBSTRATE_NODE_RPC : ''
-        }
-      >
-        <ExtrinsicsProvider>
+      <ExtrinsicsProvider>
+        <PicassoContextProvider
+          appName={APP_NAME}
+          ss58Format={49}
+          rpcUrl={
+            process.env.SUBSTRATE_NODE_RPC ? process.env.SUBSTRATE_NODE_RPC : ''
+          }
+        >
           <Component {...pageProps} />
-        </ExtrinsicsProvider>
-      </PicassoContextProvider>
+        </PicassoContextProvider>
+      </ExtrinsicsProvider>
     </Provider>
   )
 }
