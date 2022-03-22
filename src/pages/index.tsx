@@ -2,14 +2,14 @@ import CrowdloanRewardsUpdater from '@/polkadot/updaters/CrowdloanRewards'
 import { crowdLoanSignableMessage } from '@/polkadot/utils'
 import { stringToHex } from '@polkadot/util'
 import type { NextPage } from 'next'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react';
+import { useExtrinsics, executor } from 'substrate-react';
 import { PicassoContext } from '@/polkadot/PicassoApiContext'
-import { useExtrinsics } from 'substrate-react'
 import { APP_NAME } from '@/polkadot/constants'
 
 const Home: NextPage = () => {
   const { api, accounts, crowdloanRewards } = useContext(PicassoContext)
-  const { extrinsics, txExecutor } = useExtrinsics()
+  const extrinsics = useExtrinsics()
   const [signer, setSigner] = useState('')
   const [reward, setReward] = useState('')
   const [claim, setClaim] = useState('')
@@ -35,8 +35,9 @@ const Home: NextPage = () => {
           reward,
           signer,
         )
-        const response = await associate.send()
-        console.log(response.toHuman())
+        const response = await associate.send((res) => {
+          console.log(res.status.toString())
+        })
       }
     }
   }
@@ -50,8 +51,16 @@ const Home: NextPage = () => {
       await web3Enable(APP_NAME)
       const injector = await web3FromAddress(claim)
 
-      if (injector.signer && txExecutor) {
-        crowdloanRewards.claimExecute(claim, injector.signer, txExecutor)
+      if (injector.signer && executor) {
+        executor.execute(
+          api.tx.crowdloanRewards.claim(),
+          claim,
+          api,
+          injector.signer,
+          (txHash: string) => {
+            console.log(`Tx Finalized: ${txHash}`);
+          }
+        )
       }
     }
   }
