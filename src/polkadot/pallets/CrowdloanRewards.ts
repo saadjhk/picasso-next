@@ -1,10 +1,9 @@
 import { ApiPromise } from "@polkadot/api";
 import { Signer } from "@polkadot/api/types";
-import { Executor } from "substrate-react/dist/Executor";
 import { PalletBase } from "./PalletBase";
 export class CrowdloanRewards extends PalletBase {
-  constructor(api: ApiPromise, ex: Executor) {
-    super(api, ex);
+  constructor(api: ApiPromise) {
+    super(api);
   }
   /**
    * Send association to picasso chain
@@ -31,25 +30,9 @@ export class CrowdloanRewards extends PalletBase {
         }
       : { Ethereum: proof };
 
-    return this.polkaApi.tx.crowdloanRewards.associate(
+    this.polkaApi.tx.crowdloanRewards.associate(
       rewardsAccountID,
       association
-    );
-  }
-  /**
-   * Claim Rewards
-   * @param rewardsAccount SS58 format string
-   */
-   public async claimExecute(rewardAccount: string, injectedSigner: Signer, ex: Executor) {
-
-    ex.execute(
-      this.polkaApi.tx.crowdloanRewards.claim(),
-      rewardAccount,
-      this.polkaApi,
-      injectedSigner,
-      (txHash) => {
-        console.log('Tx Finalized with hash: ', txHash)
-      }
     )
   }
   /**
