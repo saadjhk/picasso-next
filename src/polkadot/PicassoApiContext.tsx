@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import * as definitions from "@/interfaces/definitions";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { CrowdloanRewards } from "./pallets/CrowdloanRewards";
-import { useExtrinsics } from "substrate-react";
 
 type ApiConnectionStatus = "initializing" | "connected" | "failed" | "error";
 type PolkadotExtensionStatus = "initializing" | "error" | "no_extension";
@@ -27,7 +26,6 @@ export const PicassoContextProvider = ({
   ss58Format: number;
   appName: string;
 }) => {
-  const { txExecutor } = useExtrinsics();
 
   const [picassoApiState, setPicassoApiState] = useState({
     api: undefined as ApiPromise | undefined,
@@ -38,7 +36,7 @@ export const PicassoContextProvider = ({
   });
 
   useEffect(() => {
-    if (txExecutor) {
+
       const { WsProvider } = require("@polkadot/api");
 
       const types = Object.values(definitions).reduce(
@@ -62,13 +60,13 @@ export const PicassoContextProvider = ({
         })
 
         setPicassoApiState((s) => {
-          s.crowdloanRewards = new CrowdloanRewards(polkadotApi, txExecutor);
+          s.crowdloanRewards = new CrowdloanRewards(polkadotApi);
           s.api = polkadotApi;
           return s;
         });
       });
-    }
-  }, [txExecutor])
+
+  }, [])
 
   return (
     <PicassoContext.Provider value={picassoApiState}>
