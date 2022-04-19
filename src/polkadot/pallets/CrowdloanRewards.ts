@@ -3,8 +3,8 @@ import { Signer } from "@polkadot/api/types";
 import Executor from "substrate-react/dist/extrinsics/Executor";
 import { PalletBase } from "./PalletBase";
 export class CrowdloanRewards extends PalletBase {
-  constructor(api: ApiPromise, ex: Executor) {
-    super(api, ex);
+  constructor(api: ApiPromise) {
+    super(api);
   }
   /**
    * Send association to picasso chain
@@ -31,7 +31,7 @@ export class CrowdloanRewards extends PalletBase {
         }
       : { Ethereum: proof };
 
-    return this.polkaApi.tx.crowdloanRewards.associate(
+    this.polkaApi.tx.crowdloanRewards.associate(
       rewardsAccountID,
       association
     );

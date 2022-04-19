@@ -3,10 +3,8 @@ import Executor from "substrate-react/dist/extrinsics/Executor";
 
 export class PalletBase {
     polkaApi: ApiPromise;
-    ex: Executor;
 
-    constructor(api: ApiPromise, ex: Executor) {
+    constructor(api: ApiPromise) {
         this.polkaApi = api;
-        this.ex = ex;
     }
 }

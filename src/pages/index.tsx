@@ -1,13 +1,12 @@
 import CrowdloanRewardsUpdater from '@/polkadot/updaters/CrowdloanRewards'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { useDotSamaContext, useExtrinsics, useParachainApi } from 'substrate-react'
+import { useDotSamaContext, useParachainApi } from 'substrate-react'
 import { ConntectedAccount } from 'substrate-react/dist/dotsama/types'
 
 const Home: NextPage = () => {
-  const { activate, deactivate } = useDotSamaContext();
-  const { parachainApi, accounts } = useParachainApi('picasso');
-  const { extrinsics, txExecutor } = useExtrinsics()
+  const { activate } = useDotSamaContext();
+  const { accounts } = useParachainApi('picasso');
   const [signer, setSigner] = useState('')
   const [reward, setReward] = useState('')
   const [claim, setClaim] = useState('')
@@ -60,16 +59,12 @@ const Home: NextPage = () => {
   //   }
   // }
 
-  useEffect(() => {
-    console.log(extrinsics)
-  }, [extrinsics])
-
   return (
     <div>
       <label>Signer</label>
       <select
         onChange={(evt) => {
-          setSigner(evt.target.value)
+          setSigner(evt.target.value);
         }}
       >
         {accounts.map((acc: any, index: number) => {
@@ -77,14 +72,14 @@ const Home: NextPage = () => {
             <option key={index} value={acc.address}>
               {acc.name}
             </option>
-          )
+          );
         })}
       </select>
       <br></br>
       <label>Reward</label>
       <select
         onChange={(evt) => {
-          setReward(evt.target.value)
+          setReward(evt.target.value);
         }}
       >
         {accounts.map((acc: any, index: number) => {
@@ -92,7 +87,7 @@ const Home: NextPage = () => {
             <option key={index} value={acc.address}>
               {acc.name}
             </option>
-          )
+          );
         })}
       </select>
       <br></br>
@@ -108,7 +103,7 @@ const Home: NextPage = () => {
       <label>Claim</label>
       <select
         onChange={(evt) => {
-          setClaim(evt.target.value)
+          setClaim(evt.target.value);
         }}
       >
         {accounts.map((acc: ConntectedAccount, index: number) => {
@@ -116,7 +111,7 @@ const Home: NextPage = () => {
             <option key={index} value={acc.address}>
               {acc.name}
             </option>
-          )
+          );
         })}
       </select>
       <br></br>
@@ -163,7 +158,7 @@ const Home: NextPage = () => {
 
       <CrowdloanRewardsUpdater claimerAccount={signer} />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

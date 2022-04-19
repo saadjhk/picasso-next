@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </ExecutorProvider>
       </DotSamaContextProvider>
     </Provider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
