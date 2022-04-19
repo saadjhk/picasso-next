@@ -1,25 +1,25 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { ExtrinsicsProvider } from 'substrate-react'
-import { PicassoContextProvider } from '@/polkadot/PicassoApiContext'
+import { ExecutorProvider, DotSamaContextProvider } from 'substrate-react'
+import { APP_NAME } from '@/polkadot/constants'
 import { store } from '@/store/store'
 import { Provider } from 'react-redux'
-import { APP_NAME } from '@/polkadot/constants'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <ExtrinsicsProvider>
-        <PicassoContextProvider
-          appName={APP_NAME}
-          ss58Format={49}
-          rpcUrl={
-            process.env.SUBSTRATE_NODE_RPC ? process.env.SUBSTRATE_NODE_RPC : ''
+      <DotSamaContextProvider 
+        appName={APP_NAME}
+        supportedParachains={[
+          {
+            chainId: "picasso",
+            rpcUrl: "ws://127.0.0.1:9988"
           }
-        >
-          <Component {...pageProps} />
-        </PicassoContextProvider>
-      </ExtrinsicsProvider>
+        ]}>
+          <ExecutorProvider>
+            <Component {...pageProps} />
+          </ExecutorProvider>
+      </DotSamaContextProvider>
     </Provider>
   )
 }

@@ -2,7 +2,6 @@ import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { CrowdloanRewards } from "../pallets/CrowdloanRewards";
-import { PicassoContext } from "../PicassoApiContext";
 
 
 const updateSlice = async (account: string, cr: CrowdloanRewards, appDispatch: Dispatch<AnyAction>) => {
@@ -22,14 +21,14 @@ const CrowdloanRewardsUpdater = ({
   claimerAccount: string | undefined;
 }) => {
     const appDispatch = useDispatch();
-  const { crowdloanRewards } = useContext(PicassoContext);
+  // const { crowdloanRewards } = useContext(PicassoContext);
 
-  useEffect(() => {
-    if (claimerAccount && crowdloanRewards) {
-      console.log('KSM')
-        updateSlice(claimerAccount, crowdloanRewards, appDispatch)
-    }
-  }, [claimerAccount, crowdloanRewards]);
+  // useEffect(() => {
+  //   if (claimerAccount && crowdloanRewards) {
+  //     console.log('KSM')
+  //       updateSlice(claimerAccount, crowdloanRewards, appDispatch)
+  //   }
+  // }, [claimerAccount, crowdloanRewards]);
 
   return null;
 };
